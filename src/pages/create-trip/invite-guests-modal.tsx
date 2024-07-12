@@ -1,6 +1,20 @@
 import { AtSign, Plus, X } from "lucide-react"
+import { FormEvent } from "react"
 
-export function InviteGuestsModal() {
+interface InviteGuestsModalProps {
+    closeGuestsModal: () => void
+    emailsToInvite: String[]
+    addNewEmailToInvite: (event: FormEvent<HTMLFormElement>) => void
+    removeEmailFromIvites: (email: string) => void
+}
+
+export function InviteGuestsModal({ 
+    addNewEmailToInvite, 
+    closeGuestsModal, 
+    emailsToInvite, 
+    removeEmailFromIvites,
+}: InviteGuestsModalProps) {
+
     return (
         <div className='fixed inset-0 bg-black/60 flex items-center justify-center'>
 
