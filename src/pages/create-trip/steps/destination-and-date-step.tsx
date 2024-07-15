@@ -1,6 +1,7 @@
 import { ArrowRight, Calendar, MapPin, Settings2, X } from "lucide-react";
 import { useState } from "react";
 import { DateRange, DayPicker } from "react-day-picker";
+import { format } from 'date-fns'
 import "react-day-picker/dist/style.css";
 
 interface DestinationAndDateStepProps {
@@ -15,7 +16,9 @@ export function DestinationAndDateStep({
   isGuestsInputOpen,
 }: DestinationAndDateStepProps) {
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
-  const [eventStartsAndEndDates, setEventStartAndEndDates] = useState<DateRange | undefined>()
+  const [eventStartsAndEndDates, setEventStartAndEndDates] = useState<
+    DateRange | undefined
+  >();
 
   function openDatePicker() {
     return setIsDatePickerOpen(true);
@@ -24,6 +27,10 @@ export function DestinationAndDateStep({
   function closeDatePicker() {
     return setIsDatePickerOpen(false);
   }
+
+  const displayedDate = eventStartsAndEndDates && eventStartsAndEndDates.from 
+    ? format(eventStartsAndEndDates.from, 'd') 
+    : null;
 
   return (
     <div className="h-16 bg-zinc-900 px-4 rounded-xl flex items-center shadow-shape gap-3">
@@ -43,7 +50,9 @@ export function DestinationAndDateStep({
         className="flex items-center gap-2 text-left"
       >
         <Calendar className="size-5 text-zinc-400" />
-        <span className=" text-lg text-zinc-400 w-40">Quando?</span>
+        <span className=" text-lg text-zinc-400 w-40">
+          {displayedDate  || 'Quando?'}
+        </span>
       </button>
 
       {isDatePickerOpen && (
@@ -51,16 +60,18 @@ export function DestinationAndDateStep({
           <div className="rounded-xl py-5 px-6 shadow-shape bg-zinc-900 space-y-5">
             <div className="space-y-2">
               <div className="flex items-center justify-between">
-                <h2 className="text-lg font-semibold">
-                  Selecione a data
-                </h2>
+                <h2 className="text-lg font-semibold">Selecione a data</h2>
                 <button type="button" onClick={closeDatePicker}>
                   <X className="size-5 text-zinc-400" />
                 </button>
               </div>
             </div>
 
-            <DayPicker mode="range" selected={eventStartsAndEndDates} onSelect={setEventStartAndEndDates} />
+            <DayPicker
+              mode="range"
+              selected={eventStartsAndEndDates}
+              onSelect={setEventStartAndEndDates}
+            />
           </div>
         </div>
       )}
